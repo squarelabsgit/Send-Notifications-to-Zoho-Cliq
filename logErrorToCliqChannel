@@ -1,0 +1,31 @@
+//
+//Refer to YouTube Video: https://youtu.be/jSw0BcUFSBE
+//
+logMap = zoho.crm.getRecordById("Logs",logId);
+functionName = logMap.get("Function_Name");
+//
+//Copy Code produced from Message Builder
+// https://cliq.zoho.com/messagebuilder
+//
+response = Map();
+response.put("text","Function (" + functionName + "). Click the button to open the log record for more details.");
+card = Map();
+card.put("title","Error");
+card.put("thumbnail","https://img.icons8.com/color/512/error.png");
+card.put("theme","prompt");
+response.put("card",card);
+buttonsList = list();
+buttonsList0 = Map();
+buttonsList0.put("label","Open Error Log");
+action = Map();
+action.put("type","open.url");
+data = Map();
+data.put("web","<INSERT MODULE URL>" + logId);
+action.put("data",data);
+buttonsList0.put("action",action);
+buttonsList.add(buttonsList0);
+response.put("buttons",buttonsList);
+//
+//Send Message to Zoho Cliq
+cliqResponse = zoho.cliq.postToChannelAsBot("<INSERT UNIQUE CHANNEL NAME HERE>","<INSERT UNIQUE BOT NAME HERE>",response,"<INSERT CONNECTION NAME HERE>");
+info cliqResponse;
